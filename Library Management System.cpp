@@ -334,7 +334,7 @@ void Lib::show(int i)
 
   }
   int Lib::branch(int x)
-  {
+      {
       int i;
       cout<<"\n\t\t>>Please Choose one Branch :-\n";
       cout<<"\n\t\t1.BIT\n\n\t\t2.EE\n\n\t\t3.EC\n\n\t\t4.CIVIL\n\n\t\t5.MECHANICAL\n\n\t\t6.1ST YEAR\n\n\t\t7.Go to menu\n";
@@ -366,7 +366,7 @@ void Lib::show(int i)
         }
   }
   void Lib::see(int x)
-  {
+     {
       int i,b,cont=0;
       char ch[100];
       system("cls");
@@ -383,7 +383,8 @@ void Lib::show(int i)
             else
             librarian();
         }
-
+ 
+ 
       system("cls");
       cout<<"\n\t\tPlease Choose one option :-\n";
       cout<<"\n\t\t1.Search By Name\n\n\t\t2.Search By Book's ID\n";
@@ -447,8 +448,6 @@ void Lib::show(int i)
     student();
     else
     librarian();
-
-
   }
 void Lib::issue()
 {
