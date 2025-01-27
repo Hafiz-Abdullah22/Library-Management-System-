@@ -1,3 +1,7 @@
+LOGIN DETAILS FOR THE LIBRARIAN
+Username: Librarian
+Password: pass
+Date Format: Use the format (DAY MONTH YEAR) with no special characters, separated by spaces (e.g., 27 January 2025).
 LIBRARY MANAGEMENT SYSTEM
 Project Title
 Library Management System (C++)
