@@ -58,7 +58,7 @@ void Lib::getdata()
                     cout<<"\n\t\tEnter Book's Quantity : ";
                     cin>>q;
 }
-void Lib::show(int i)
+void Lib::show(int i)//kjshjdfu
 {
     cout<<"\n\t\tBook Name : "<<bookname<<endl;
     cout<<"\n\t\tBook's Author Name : "<<auname<<endl;
