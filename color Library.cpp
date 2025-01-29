@@ -98,7 +98,6 @@ void displayBooks();
 void searchByID();
 void searchByTitle();
 void searchByCategory();
-void searchByEdition();
 void searchByAuthor();
 void dispose();
 void modify();
@@ -121,19 +120,24 @@ void heading() {
 void addBook() {
     try {
         ofstream fout("books.dat", ios::app | ios::binary);
-        fout.exceptions(ofstream::failbit | ofstream::badbit); // Set exceptions
+        if (!fout) {
+            throw runtime_error("Error opening file for writing.");
+        }
         l.getBook();
         fout.write((char*)&l, sizeof(l));
         cout << "Book data saved in file...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+        fout.close();
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
 void displayBooks() {
     try {
         ifstream fin("books.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         int rec = 0;
         while (fin.read((char*)&l, sizeof(l))) {
             if (rec < 1)
@@ -141,9 +145,10 @@ void displayBooks() {
             l.listView();
             rec++;
         }
+        fin.close();
         cout << "\nTotal " << rec << " Records in file...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
@@ -151,7 +156,9 @@ void searchByID() {
     int n, flag = 0;
     try {
         ifstream fin("books.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         cout << "Enter book ID: ";
         cin >> n;
         while (fin.read((char*)&l, sizeof(l))) {
@@ -160,10 +167,11 @@ void searchByID() {
                 flag++;
             }
         }
+        fin.close();
         if (flag == 0)
-            cout << "Book Number with ID: " << n << " not available...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+            cout << "Book with ID: " << n << " not available...\n";
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
@@ -172,7 +180,9 @@ void searchByTitle() {
     char title[20];
     try {
         ifstream fin("books.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         cout << "Enter Book Title: ";
         cin.ignore();
         cin.getline(title, 20);
@@ -182,10 +192,11 @@ void searchByTitle() {
                 flag++;
             }
         }
+        fin.close();
         if (flag == 0)
             cout << "Book with Title: " << title << " not available...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
@@ -194,7 +205,9 @@ void searchByCategory() {
     char cat[20];
     try {
         ifstream fin("books.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         cout << "Enter Book Category: ";
         cin.ignore();
         cin.getline(cat, 20);
@@ -207,10 +220,11 @@ void searchByCategory() {
                 rec++;
             }
         }
+        fin.close();
         if (flag == 0)
             cout << "Book with Category: " << cat << " not available...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
@@ -219,7 +233,9 @@ void searchByAuthor() {
     char aut[20];
     try {
         ifstream fin("books.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         cout << "Enter Book Author: ";
         cin.ignore();
         cin.getline(aut, 20);
@@ -232,10 +248,11 @@ void searchByAuthor() {
                 rec++;
             }
         }
+        fin.close();
         if (flag == 0)
             cout << "Book with Author name: " << aut << " not available...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
@@ -243,9 +260,13 @@ void dispose() {
     int n, flag = 0;
     try {
         ifstream fin("books.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         ofstream fout("dispose.dat", ios::binary);
-        fout.exceptions(ofstream::failbit | ofstream::badbit); // Set exceptions
+        if (!fout) {
+            throw runtime_error("Error opening file for writing.");
+        }
         cout << "Enter Book ID: ";
         cin >> n;
         while (fin.read((char*)&l, sizeof(l))) {
@@ -259,9 +280,9 @@ void dispose() {
         fin.close();
         fout.close();
         if (flag == 0)
-            cout << "Book Number with ID: " << n << " not available...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+            cout << "Book with ID: " << n << " not available...\n";
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
@@ -269,7 +290,9 @@ void modify() {
     int n, flag = 0, pos;
     try {
         fstream fin("books.dat", ios::in | ios::out | ios::binary);
-        fin.exceptions(fstream::failbit | fstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading/writing.");
+        }
         cout << "Enter Book ID: ";
         cin >> n;
         while (fin.read((char*)&l, sizeof(l))) {
@@ -286,16 +309,18 @@ void modify() {
         }
         fin.close();
         if (flag == 0)
-            cout << "Book Number with ID: " << n << " not available...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+            cout << "Book with ID: " << n << " not available...\n";
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
 void displayDisposed() {
     try {
         ifstream fin("dispose.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         int rec = 0;
         while (fin.read((char*)&l, sizeof(l))) {
             if (rec < 1)
@@ -305,8 +330,8 @@ void displayDisposed() {
         }
         fin.close();
         cout << "\nTotal " << rec << " Records in disposed off file...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << " File operation failed: " << e.what() << endl;
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
@@ -314,69 +339,112 @@ void deleteBook() {
     int n, flag = 0;
     try {
         ifstream fin("books.dat", ios::binary);
-        fin.exceptions(ifstream::failbit | ifstream::badbit); // Set exceptions
+        if (!fin) {
+            throw runtime_error("Error opening file for reading.");
+        }
         ofstream fout("temp.dat", ios::binary);
-        fout.exceptions(ofstream::failbit | ofstream::badbit); // Set exceptions
+        if (!fout) {
+            throw runtime_error("Error opening file for writing.");
+        }
         cout << "Enter Book ID to delete: ";
         cin >> n;
         while (fin.read((char*)&l, sizeof(l))) {
             if (n == l.getID()) {
+                l.showBook();
                 flag++;
-                cout << "Book with ID: " << n << " deleted successfully.\n";
             } else {
                 fout.write((char*)&l, sizeof(l));
             }
         }
         fin.close();
         fout.close();
-        remove("books.dat");
-        rename("temp.dat", "books.dat");
         if (flag == 0)
-            cout << "Book Number with ID: " << n << " not available...\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+            cout << "Book with ID: " << n << " not available...\n";
+        else {
+            remove("books.dat");
+            rename("temp.dat", "books.dat");
+            cout << "Book deleted successfully...\n";
+        }
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
 void deleteAllBooks() {
     try {
-        remove("books.dat");
-        cout << "All books deleted successfully.\n";
-    } catch (const std::ios_base::failure& e) {
-        cerr << "File operation failed: " << e.what() << endl;
+        ofstream fout("books.dat", ios::trunc | ios::binary);
+        if (!fout) {
+            throw runtime_error("Error opening file for writing.");
+        }
+        fout.close();
+        cout << "All books deleted successfully...\n";
+    } catch (const exception& e) {
+        cerr << e.what() << endl;
     }
 }
 
-int main() {
-    int choice;
+void searchMenu() {
+    int ch;
     do {
+        system("cls");
         heading();
-        cout << "1. Add Book\n";
-        cout << "2. Display Books\n";
-        cout << "3. Search by ID\n";
-        cout << "4. Search by Title\n";
-        cout << "5. Search by Author\n";
-        cout << "6. Search by Category\n";
-        cout << "7. Modify Book\n";
-        cout << "8. Delete Book\n";
-        cout << "9. Delete All Books\n";
-        cout << "0. Exit\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        switch (choice) {
-            case 1: addBook(); break;
-            case 2: displayBooks(); break;
-            case 3: searchByID(); break;
-            case 4: searchByTitle(); break;
-            case 5: searchByAuthor(); break;
-            case 6: searchByCategory(); break;
-            case 7: modify(); break;
-            case 8: deleteBook(); break;
-            case 9: deleteAllBooks(); break;
-            case 0: cout << "Exiting the program...\n"; break;
+        cout << "0. EXIT.\n";
+        cout << "1. Search by ID\n";
+        cout << "2. Search by Title\n";
+        cout << "3. Search by Author\n";
+        cout << "4. Search by Category\n";
+        cout << "5. Return to Main Menu\n";
+        cout << "Enter Your Choice: ";
+        cin >> ch;
+        system("cls");
+        heading();
+        switch (ch) {
+            case 1: system("COLOR 5E"); searchByID(); break;
+            case 2: system("COLOR 5F"); searchByTitle(); break;
+            case 3: system("COLOR 6E"); searchByAuthor(); break;
+            case 4: system("COLOR 6F"); searchByCategory(); break;
+            case 5: return; // Return to main menu
             default: cout << "Invalid choice! Please try again.\n"; break;
         }
-    } while (choice != 0);
+        system("pause");
+    } while (ch != 0);
+}
+
+void mainMenu() {
+    int ch;
+    do {
+        system("cls");
+        heading();
+        cout << "0. EXIT.\n";
+        cout << "1. Add New Book\n";
+        cout << "2. Display All Books\n";
+        cout << "3. Search\n";
+        cout << "4. Dispose\n";
+        cout << "5. Modify\n";
+        cout << "6. List of Disposed Books\n";
+        cout << "7. Delete a Book\n";
+        cout << "8. Delete All Books\n";
+        cout << "Enter Your Choice: ";
+        cin >> ch;
+        system("cls");
+        heading();
+        switch (ch) {
+            case 1: system("COLOR 5E"); addBook(); break;
+            case 2: system("COLOR 5F"); displayBooks(); break;
+            case 3: system("COLOR 6E"); searchMenu(); break;
+            case 4: system("COLOR 6F"); dispose(); break;
+            case 5: system("COLOR 4E"); modify(); break;
+            case 6: system("COLOR 4F"); displayDisposed(); break;
+            case 7: system("COLOR 3E"); deleteBook(); break;
+            case 8: system("COLOR 3F"); deleteAllBooks(); break;
+        }
+        system("pause");
+    } while (ch != 0);
+}
+
+int main() {
+    system("COLOR 70");
+    heading();
+    mainMenu();
     return 0;
 }
