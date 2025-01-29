@@ -1,8 +1,8 @@
 #include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <cstring>
-#include <cstdlib>
+#include <fstream> //Ye file handling ke liye hai, jese files ko read aur write karne ke liye.
+#include <iomanip> //Ye output formatting ke liye hai, jese setw() function.
+#include <cstring> //Ye string manipulation ke liye hai, jese strcpy().
+#include <cstdlib> //Ye general utilities ke liye hai, jese exit().
 #include <stdexcept> // For exception handling
 
 using namespace std;
