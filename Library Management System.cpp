@@ -813,7 +813,7 @@ void Lib::librarian()
 void Lib::password()
 {
     int i=0,j=0;
-    char ch,st[21],ch1[21]={"pass"};
+    char ch,st[21],ch1[21]={"Waqas"};
     system("cls");
     cout<<"\n\n\t\tEnter Old Password : ";
     while(1)
