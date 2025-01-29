@@ -1,13 +1,4 @@
-# Library Management System
-## **Login Details for the Librarian**  
-
-- **Password:** `Waqas`  
-
-## **Note:**  
-- The date should be provided in the format: **DAY MONTH YEAR**  
-- No special characters should be used; the values should be **separated by spaces**  
-
-## **Important:**  
+ ## **Important:**  
 ✅ If you find any errors or issues related to this program, feel free to contact us.  
 
 ✅ **Leave a comment** if you loved our work!  
